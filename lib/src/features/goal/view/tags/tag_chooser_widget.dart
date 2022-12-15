@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goal_tracker_riverpod/src/core/utils/color_conversions.dart';
 
 import 'package:goal_tracker_riverpod/src/features/goal/data/providers.dart';
+import 'package:goal_tracker_riverpod/src/features/goal/data/tag_collection_manager.dart';
 import 'package:goal_tracker_riverpod/src/features/goal/model/tag.dart';
 
 typedef OnTagAdded = void Function(List<Tag> tags);
@@ -14,41 +15,45 @@ class TagChooserWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ChipsInput(
-        //controller: chipsController,
-        findSuggestions: ((query) {
-          ref.read(tagStartsWithProvider.notifier).state = query;
+    final tags = ref.watch(tagCollectionManagerProvider);
 
-          return ref.read(tagsProvider.future).then((tags) {
+    return tags.when(
+      data: (tags) => ChipsInput(
+          //controller: chipsController,
+          findSuggestions: ((query) {
+            ref.read(tagStartsWithProvider.notifier).state = query;
+
             return tags;
-          });
-        }),
-        suggestionBuilder: (context, data) {
-          final backgroundColor = Color(int.parse(data.rawColor ?? '0'));
-          return Chip(
-            label: Text(
-              '${data.name}',
-              style: TextStyle(
+          }),
+          suggestionBuilder: (context, data) {
+            final backgroundColor = Color(int.parse(data.rawColor ?? '0'));
+            return Chip(
+              label: Text(
+                '${data.name}',
+                style: TextStyle(
+                    color: ColorConversions.getOptimalTextColor(
+                        backgroundColor: backgroundColor)),
+              ),
+              backgroundColor: backgroundColor,
+            );
+          },
+          chipBuilder: (context, state, tag) {
+            final backgroundColor = Color(int.parse(tag.rawColor ?? '0'));
+            return InputChip(
+              label: Text(
+                '${tag.name}',
+                style: TextStyle(
                   color: ColorConversions.getOptimalTextColor(
-                      backgroundColor: backgroundColor)),
-            ),
-            backgroundColor: backgroundColor,
-          );
-        },
-        chipBuilder: (context, state, tag) {
-          final backgroundColor = Color(int.parse(tag.rawColor ?? '0'));
-          return InputChip(
-            label: Text(
-              '${tag.name}',
-              style: TextStyle(
-                color: ColorConversions.getOptimalTextColor(
-                  backgroundColor: backgroundColor,
+                    backgroundColor: backgroundColor,
+                  ),
                 ),
               ),
-            ),
-          );
-        },
-        onChanged: onTagAdded);
+            );
+          },
+          onChanged: onTagAdded),
+      loading: (() => const CircularProgressIndicator()),
+      error: ((error, stackTrace) => Text('$error $stackTrace')),
+    );
   }
 }
 

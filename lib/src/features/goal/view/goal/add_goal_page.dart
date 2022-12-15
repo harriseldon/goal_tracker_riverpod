@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:goal_tracker_riverpod/src/features/goal/data/goal_manager.dart';
 import 'package:goal_tracker_riverpod/src/features/goal/data/providers.dart';
 import 'package:goal_tracker_riverpod/src/features/goal/view/tags/tag_chooser_widget.dart';
 
@@ -50,10 +51,11 @@ class _AddGoalPageState extends ConsumerState<AddGoalPage> {
             icon: const Icon(Icons.save),
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
-                ref.read(goalManagerProvider.future).then((manager) =>
-                    manager.addGoal(titleController.text,
-                        description: descriptionController.text,
-                        tags: _selectedTags));
+                ref.read(goalManagerProvider.notifier).addGoal(
+                    titleController.text,
+                    description: descriptionController.text,
+                    tags: _selectedTags);
+                Navigator.of(context).pop();
               }
             },
           )

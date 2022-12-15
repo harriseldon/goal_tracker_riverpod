@@ -19,4 +19,10 @@ enum ActionWordType {
   management,
   coordination,
   teamwork,
+  ;
+
+  @override
+  String toString() {
+    return name.toUpperCase();
+  }
 }

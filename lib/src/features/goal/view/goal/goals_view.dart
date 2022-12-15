@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:goal_tracker_riverpod/src/features/goal/data/goal_manager.dart';
 import 'package:goal_tracker_riverpod/src/features/goal/data/providers.dart';
 
 class GoalsView extends ConsumerWidget {
@@ -22,7 +23,7 @@ class GoalsView extends ConsumerWidget {
       loading: () => 'Loading ...',
     );
 
-    final goals = ref.watch(goalsProvider);
+    final goals = ref.watch(goalManagerProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -36,7 +37,8 @@ class GoalsView extends ConsumerWidget {
                 return ListTile(
                   title: Text('${goal.title}'),
                   subtitle: Text('${goal.description}'),
-                  trailing: Text('${goal.startDate}-${goal.endDate}'),
+                  trailing: Text(
+                      '${goal.startDate ?? 'not specified'}-${goal.endDate ?? 'not specified'}'),
                   onTap: () {
                     // set the current goal
                     ref.read(currentGoalIdProvider.notifier).state = goal.id;

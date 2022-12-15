@@ -1,37 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:goal_tracker_riverpod/src/core/utils/change_color_dialog.dart';
-import 'package:ndialog/ndialog.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:goal_tracker_riverpod/src/core/utils/color_conversions.dart';
+import 'package:goal_tracker_riverpod/src/features/goal/data/providers.dart';
+import 'package:goal_tracker_riverpod/src/features/goal/data/tag_collection_manager.dart';
+import 'package:goal_tracker_riverpod/src/features/goal/model/tag.dart';
+import 'package:goal_tracker_riverpod/src/features/goal/view/tags/tag_color_widget.dart';
 
-class TagWidget extends StatelessWidget {
-  const TagWidget(
-      {super.key, required this.currentColor, required this.onColorChanged});
-  final Color currentColor;
-  final OnColorChangedFunction onColorChanged;
+class TagWidget extends ConsumerWidget {
+  const TagWidget({super.key, required this.tag});
+  final Tag tag;
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        height: 24,
-        width: 24,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: currentColor,
-        ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tagColor = ColorConversions.getFromString(tag.rawColor);
+    return ListTile(
+      title: Text(
+        tag.name ?? 'unknown',
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
       ),
-      onTap: () {
-        // open a color picker and change the color of this tag
-        NDialog(
-          title: const Text('Choose a color'),
-          content: (ChangeColorDialog(
-              startingColor: currentColor, onColorChanged: onColorChanged)),
-          actions: [
-            TextButton(
-                child: const Text("Ok"),
-                onPressed: () => Navigator.pop(context)),
-          ],
-        ).show(context);
-      },
+      trailing: TagColorWidget(
+          currentColor: tagColor,
+          onColorChanged: (newColor) {
+            ref
+                .read(tagCollectionManagerProvider.notifier)
+                .changeTagColor(tag.id, newColor: newColor);
+          }),
     );
   }
 }

@@ -73,51 +73,7 @@ final currentCollectionProvider = AutoDisposeFutureProvider<GoalCollection?>(
       : $currentCollectionHash,
 );
 typedef CurrentCollectionRef = AutoDisposeFutureProviderRef<GoalCollection?>;
-String $tagCollectionManagerHash() =>
-    r'59ab8ae2775d9619da9f5c9d9992c8713448bb12';
-
-/// See also [tagCollectionManager].
-final tagCollectionManagerProvider =
-    AutoDisposeFutureProvider<TagCollectionManager>(
-  tagCollectionManager,
-  name: r'tagCollectionManagerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : $tagCollectionManagerHash,
-);
-typedef TagCollectionManagerRef
-    = AutoDisposeFutureProviderRef<TagCollectionManager>;
-String $tagsHash() => r'c22b9c5b21c59682a980d62848a78cbdd026b2d9';
-
-/// See also [tags].
-final tagsProvider = AutoDisposeFutureProvider<List<Tag>>(
-  tags,
-  name: r'tagsProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : $tagsHash,
-);
-typedef TagsRef = AutoDisposeFutureProviderRef<List<Tag>>;
-String $goalManagerHash() => r'42472ecd0405bed6d1c833cd68a28df2b4897e41';
-
-/// See also [goalManager].
-final goalManagerProvider = AutoDisposeFutureProvider<GoalManager>(
-  goalManager,
-  name: r'goalManagerProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : $goalManagerHash,
-);
-typedef GoalManagerRef = AutoDisposeFutureProviderRef<GoalManager>;
-String $goalsHash() => r'e7ee6ac7dc1c85a0bdc92ba0fa4a8f0c54291bae';
-
-/// See also [goals].
-final goalsProvider = AutoDisposeFutureProvider<List<Goal>>(
-  goals,
-  name: r'goalsProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : $goalsHash,
-);
-typedef GoalsRef = AutoDisposeFutureProviderRef<List<Goal>>;
-String $currentGoalHash() => r'5f396ca58c2087d5f38e24fb63691988f762733c';
+String $currentGoalHash() => r'46e6251ee5d4341bda73608325901d637da63c13';
 
 /// See also [currentGoal].
 final currentGoalProvider = AutoDisposeFutureProvider<Goal?>(
@@ -127,28 +83,3 @@ final currentGoalProvider = AutoDisposeFutureProvider<Goal?>(
       const bool.fromEnvironment('dart.vm.product') ? null : $currentGoalHash,
 );
 typedef CurrentGoalRef = AutoDisposeFutureProviderRef<Goal?>;
-String $goalProgressManagerHash() =>
-    r'2326652e6abc5e55f313066cba59014f781b8460';
-
-/// See also [goalProgressManager].
-final goalProgressManagerProvider =
-    AutoDisposeFutureProvider<GoalProgressManager>(
-  goalProgressManager,
-  name: r'goalProgressManagerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : $goalProgressManagerHash,
-);
-typedef GoalProgressManagerRef
-    = AutoDisposeFutureProviderRef<GoalProgressManager>;
-String $actionWordManagerHash() => r'6afe4522c8a1a1980ca314d8eec01e91e7b510a1';
-
-/// See also [actionWordManager].
-final actionWordManagerProvider = AutoDisposeFutureProvider<ActionWordManager>(
-  actionWordManager,
-  name: r'actionWordManagerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : $actionWordManagerHash,
-);
-typedef ActionWordManagerRef = AutoDisposeFutureProviderRef<ActionWordManager>;

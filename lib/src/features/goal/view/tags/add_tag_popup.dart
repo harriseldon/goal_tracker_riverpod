@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goal_tracker_riverpod/src/features/goal/view/tags/tag_widget.dart';
+import 'package:goal_tracker_riverpod/src/features/goal/view/tags/tag_color_widget.dart';
 
 typedef OnStringAdded = void Function(String name, {Color? color});
 
@@ -43,7 +43,7 @@ class _AddTagPopupState extends State<AddTagPopup> {
             });
           },
         ),
-        TagWidget(
+        TagColorWidget(
             currentColor: _chosenColor,
             onColorChanged: (newColor) {
               setState(() {
@@ -55,6 +55,7 @@ class _AddTagPopupState extends State<AddTagPopup> {
             if (_formKey.currentState?.validate() ?? false) {
               _formKey.currentState?.save();
               widget.onTagAdded(_tagName ?? 'unknown', color: _chosenColor);
+              Navigator.of(context).pop();
             }
           },
           icon: const Icon(Icons.save),

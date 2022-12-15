@@ -14,6 +14,7 @@ class GoalCollectionManager {
 
     await isar.writeTxn(() async {
       await isar.goalCollections.put(newCollection);
+
       if (tags != null && tags.isNotEmpty) {
         for (String tagName in tags) {
           final tag = await isar.tags.where().nameEqualTo(tagName).findFirst();

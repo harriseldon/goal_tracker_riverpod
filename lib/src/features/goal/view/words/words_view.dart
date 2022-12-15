@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:goal_tracker_riverpod/src/features/goal/data/providers.dart';
+import 'package:goal_tracker_riverpod/src/features/goal/data/action_word_manager.dart';
 
 class WordsView extends ConsumerWidget {
   const WordsView({super.key});
@@ -14,25 +14,17 @@ class WordsView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Action Words')),
       body: wordsFuture.when(
-        data: (manager) {
-          final words = manager.getActionWords();
-          return FutureBuilder(
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemBuilder: (context, index) => ListTile(
-                      title: Text('${snapshot.data![index].word}'),
-                      subtitle: Text(
-                        '${snapshot.data![index].wordType}',
-                      ),
-                    ),
-                    itemCount: snapshot.data!.length,
-                  );
-                } else {
-                  return Container();
-                }
-              },
-              future: words);
+        data: (words) {
+          //final words = manager.getActionWords();
+          return ListView.builder(
+            itemBuilder: (context, index) => ListTile(
+              title: Text('${words[index].word}'),
+              subtitle: Text(
+                '${words[index].wordType}',
+              ),
+            ),
+            itemCount: words.length,
+          );
         },
         error: (error, stackTrace) =>
             Center(child: Text('$error - ${stackTrace.toString()}')),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:goal_tracker_riverpod/src/features/goal/data/providers.dart';
+import 'package:goal_tracker_riverpod/src/features/goal/data/action_word_manager.dart';
+
 import 'package:goal_tracker_riverpod/src/features/goal/model/action_word.dart';
 
 class AddWordPage extends StatefulWidget {
@@ -27,13 +28,11 @@ class _AddWordPageState extends State<AddWordPage> {
               IconButton(
                   onPressed: () {
                     if (_formKey.currentState?.validate() ?? false) {
-                      final wordManager =
-                          ref.read(actionWordManagerProvider.future);
-                      wordManager.then((manager) {
-                        manager.addActionWord(
-                            actionWord: wordController.text,
-                            actionWordType: wordType);
-                      });
+                      ref
+                          .read(actionWordManagerProvider.notifier)
+                          .addActionWord(
+                              actionWord: wordController.text,
+                              actionWordType: wordType);
 
                       Navigator.of(context).pop();
                     }

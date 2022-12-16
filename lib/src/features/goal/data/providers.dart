@@ -25,17 +25,17 @@ Future<Isar> isarInstance(FutureProviderRef ref) => Isar.open(
       ],
     );
 
-@riverpod
-Future<GoalCollectionManager> collectionManager(
-    CollectionManagerRef ref) async {
-  final isar = await ref.watch(isarInstanceProvider.future);
-  return GoalCollectionManager(isar: isar);
-}
+// @riverpod
+// Future<GoalCollectionManager> collectionManager(
+//     CollectionManagerRef ref) async {
+//   final isar = await ref.watch(isarInstanceProvider.future);
+//   return GoalCollectionManager(isar: isar);
+// }
 
 @riverpod
 Future<List<GoalCollection>> collections(CollectionsRef ref) async {
-  final collectionManager = await ref.watch(collectionManagerProvider.future);
-  return collectionManager.getCollections();
+  return ref.watch(goalCollectionManagerProvider.future);
+  //return collectionManager.getCollections();
 }
 
 final currentCollectionIdProvider = StateProvider<int>((ref) => 0);
@@ -44,7 +44,7 @@ final currentCollectionIdProvider = StateProvider<int>((ref) => 0);
 Future<GoalCollection?> currentCollection(CurrentCollectionRef ref) async {
   final collectionId = ref.watch(currentCollectionIdProvider.notifier).state;
   final goalCollectionManager =
-      await ref.watch(collectionManagerProvider.future);
+      ref.watch(goalCollectionManagerProvider.notifier);
 
   return goalCollectionManager.getById(collectionId);
 }

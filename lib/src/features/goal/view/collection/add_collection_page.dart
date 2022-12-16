@@ -1,8 +1,8 @@
-import 'package:chips_input/chips_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:goal_tracker_riverpod/src/core/utils/color_conversions.dart';
+import 'package:goal_tracker_riverpod/src/features/goal/data/goal_collection_manager.dart';
 import 'package:goal_tracker_riverpod/src/features/goal/data/providers.dart';
 import 'package:goal_tracker_riverpod/src/features/goal/view/tags/tag_chooser_widget.dart';
 import 'package:isar/isar.dart';
@@ -29,18 +29,15 @@ class _AddCollectinPageState extends ConsumerState<AddCollectinPage> {
         actions: [
           IconButton(
               onPressed: () {
-                ref
-                    .read(collectionManagerProvider.future)
-                    .then((collectionManager) {
-                  if (_formKey.currentState?.validate() ?? false) {
-                    collectionManager.addCollection(nameController.text,
-                        tags: _selectedTags);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Collection Saved')),
-                    );
-                    GoRouter.of(context).pop();
-                  }
-                });
+                if (_formKey.currentState?.validate() ?? false) {
+                  ref
+                      .read(goalCollectionManagerProvider.notifier)
+                      .addCollection(nameController.text, tags: _selectedTags);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Collection Saved')),
+                  );
+                  GoRouter.of(context).pop();
+                }
               },
               icon: const Icon(Icons.save))
         ],

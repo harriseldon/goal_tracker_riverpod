@@ -43,10 +43,12 @@ dependencies:
   intl: ^0.17.0
   isar: ^3.0.0
   isar_flutter_libs: ^3.0.0
-  chips_input: ^0.1.0
+  
   go_router: ^5.2.0
   flutter_colorpicker: ^1.0.3
   ndialog: ^4.2.1
+  flutter_chips_input: ^2.0.0
+  dropdown_search: ^5.0.5
 
 
 dev_dependencies:

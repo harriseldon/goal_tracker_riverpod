@@ -39,20 +39,7 @@ final isarInstanceProvider = FutureProvider<Isar>(
       const bool.fromEnvironment('dart.vm.product') ? null : $isarInstanceHash,
 );
 typedef IsarInstanceRef = FutureProviderRef<Isar>;
-String $collectionManagerHash() => r'2822ba5e44ca35dbcc972d1c5324c59ee1df4c34';
-
-/// See also [collectionManager].
-final collectionManagerProvider =
-    AutoDisposeFutureProvider<GoalCollectionManager>(
-  collectionManager,
-  name: r'collectionManagerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : $collectionManagerHash,
-);
-typedef CollectionManagerRef
-    = AutoDisposeFutureProviderRef<GoalCollectionManager>;
-String $collectionsHash() => r'11350d211837226299fa950c034903ee4a35fec9';
+String $collectionsHash() => r'f5770cd68f54bce4e916ad83c297c6ec43ffebb4';
 
 /// See also [collections].
 final collectionsProvider = AutoDisposeFutureProvider<List<GoalCollection>>(
@@ -62,7 +49,7 @@ final collectionsProvider = AutoDisposeFutureProvider<List<GoalCollection>>(
       const bool.fromEnvironment('dart.vm.product') ? null : $collectionsHash,
 );
 typedef CollectionsRef = AutoDisposeFutureProviderRef<List<GoalCollection>>;
-String $currentCollectionHash() => r'97974749bba9bf2faf22c1a4486688fdc986919a';
+String $currentCollectionHash() => r'a2d7dbac08f70d1b52b04d9562c40bd76367b182';
 
 /// See also [currentCollection].
 final currentCollectionProvider = AutoDisposeFutureProvider<GoalCollection?>(

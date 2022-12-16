@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:goal_tracker_riverpod/src/core/common_widgets/no_data_widget.dart';
 import 'package:goal_tracker_riverpod/src/features/goal/data/goal_manager.dart';
 import 'package:goal_tracker_riverpod/src/features/goal/data/providers.dart';
+import 'package:goal_tracker_riverpod/src/features/goal/view/goal/goal_list_tile.dart';
 
 class GoalsView extends ConsumerWidget {
   const GoalsView({super.key, required this.collectionId});
@@ -31,23 +33,17 @@ class GoalsView extends ConsumerWidget {
       ),
       body: goals.when(
           data: (goalList) {
-            return ListView.builder(
-              itemBuilder: (goalContext, goalIndex) {
-                final goal = goalList[goalIndex];
-                return ListTile(
-                  title: Text('${goal.title}'),
-                  subtitle: Text('${goal.description}'),
-                  trailing: Text(
-                      '${goal.startDate ?? 'not specified'}-${goal.endDate ?? 'not specified'}'),
-                  onTap: () {
-                    // set the current goal
-                    ref.read(currentGoalIdProvider.notifier).state = goal.id;
-                    //navigation to goals page
-                  },
-                );
-              },
-              itemCount: goalList.length,
-            );
+            if (goalList.isNotEmpty) {
+              return ListView.builder(
+                itemBuilder: (goalContext, goalIndex) {
+                  final goal = goalList[goalIndex];
+                  return GoalListTile(goal: goal);
+                },
+                itemCount: goalList.length,
+              );
+            } else {
+              return const NoDataWidget(itemType: 'goals');
+            }
           },
           error: (error, stackTrace) =>
               Center(child: Text('$error: $stackTrace')),

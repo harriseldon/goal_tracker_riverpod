@@ -106,13 +106,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  chips_input:
-    dependency: "direct main"
-    description:
-      name: chips_input
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
   clock:
     dependency: transitive
     description:
@@ -169,6 +162,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  dropdown_search:
+    dependency: "direct main"
+    description:
+      name: dropdown_search
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.5"
   fake_async:
     dependency: transitive
     description:
@@ -202,6 +202,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_chips_input:
+    dependency: "direct main"
+    description:
+      name: flutter_chips_input
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   flutter_colorpicker:
     dependency: "direct main"
     description:

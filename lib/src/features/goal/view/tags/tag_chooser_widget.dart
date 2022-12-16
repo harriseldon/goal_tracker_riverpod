@@ -1,5 +1,6 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chips_input/flutter_chips_input.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goal_tracker_riverpod/src/core/utils/color_conversions.dart';
 
@@ -15,109 +16,40 @@ class TagChooserWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ChipsInput(
-      decoration: const InputDecoration(
-        labelText: "Select Tags",
+    return DropdownSearch<Tag>.multiSelection(
+      itemAsString: (tag) => tag.name ?? '',
+      asyncItems: (text) async {
+        ref.read(tagStartsWithProvider.notifier).state = text;
+
+        return ref.watch(tagCollectionManagerProvider.future);
+      },
+      popupProps: PopupPropsMultiSelection.dialog(
+        title: const Text('Choose a tag', style: TextStyle(fontSize: 20)),
+        itemBuilder: _tagBuilder,
       ),
-      maxChips: 3,
-      findSuggestions: (String query) async {
-        if (query.isNotEmpty) {
-          ref.read(tagStartsWithProvider.notifier).state = query;
-
-          final tagData = await ref.read(tagCollectionManagerProvider.future);
-
-          return tagData;
-        } else {
-          return const <Tag>[];
-        }
-      },
-      onChanged: (data) => onTagAdded,
-      chipBuilder: (context, state, tag) {
-        return InputChip(
-          key: ObjectKey(tag),
-          label: Text('${tag.name}'),
-          onDeleted: () => state.deleteChip(tag),
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        );
-      },
-      suggestionBuilder: (context, state, tag) {
-        return ListTile(
-          key: ObjectKey(tag),
-          //
-          title: Text('{$tag.name}'),
-          //subtitle: Text(profile.email),
-          onTap: () => state.selectSuggestion(tag),
-        );
-      },
+      onChanged: onTagAdded,
+      compareFn: ((item1, item2) => item1.id == item2.id),
     );
+  }
 
-    // final tags = ref.watch(tagCollectionManagerProvider);
-
-    // return tags.when(
-    //   data: (tags) => ChipsInput<Tag>(
-    //     //initialValue: tags,
-    //     //controller: chipsController,
-
-    //     findSuggestions: (query) {
-    //       ref.read(tagStartsWithProvider.notifier).state = query;
-
-    //       return tags;
-    //     },
-    //     suggestionBuilder: (context, state, data) {
-    //       final backgroundColor = Color(int.parse(data.rawColor ?? '0'));
-    //       return Chip(
-    //         label: Text(
-    //           '${data.name}',
-    //           style: TextStyle(
-    //               color: ColorConversions.getOptimalTextColor(
-    //                   backgroundColor: backgroundColor)),
-    //         ),
-    //         backgroundColor: backgroundColor,
-    //       );
-    //     },
-    //     chipBuilder: (context, state, tag) {
-    //       final backgroundColor = Color(int.parse(tag.rawColor ?? '0'));
-    //       // return Text(
-    //       //   '${tag.name}',
-    //       // );
-    //       return InputChip(
-    //         key: ObjectKey(tag),
-    //         label: Text(
-    //           '${tag.name}',
-    //           style: TextStyle(
-    //             color: ColorConversions.getOptimalTextColor(
-    //               backgroundColor: backgroundColor,
-    //             ),
-    //           ),
-    //         ),
-    //         //backgroundColor: backgroundColor,
-    //         onDeleted: () => state.deleteChip(tag),
-    //         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-    //       );
-    //     },
-    //     onChanged: (tags) {
-    //       if (onTagAdded != null) {
-    //         onTagAdded!(tags);
-    //       }
-    //     },
-    //   ),
-    //   loading: (() => const CircularProgressIndicator()),
-    //   error: ((error, stackTrace) => Text('$error $stackTrace')),
-    // );
+  Widget _tagBuilder(BuildContext context, Tag tag, bool isSelected) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      decoration: !isSelected
+          ? null
+          : BoxDecoration(
+              border: Border.all(color: Theme.of(context).primaryColor),
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.green,
+            ),
+      child: ListTile(
+        selected: isSelected,
+        title: Text(tag.name ?? ''),
+        //subtitle: Text(item?.createdAt?.toString() ?? ''),
+        leading: CircleAvatar(
+          backgroundColor: ColorConversions.getFromString(tag.rawColor),
+        ),
+      ),
+    );
   }
 }
-
-
-    // final tags = ref.watch(tagsProvider);
-
-    // return tags.when(
-    //   data: (tagList) {
-    //     return CheckBoxSelectorDialog(
-    //       dialogTitle: const Text('Choose a Tag'),
-    //       items: tagList.map<String>((e) => e.name ?? '').toList(),
-    //       controller: controller,
-    //     );
-    //   },
-    //   error: (err, trace) => const Text('Unable to load tags'),
-    //   loading: () => const CircularProgressIndicator(),
-    // );

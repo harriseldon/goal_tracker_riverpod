@@ -15,12 +15,13 @@ class CollectionListTile extends ConsumerWidget {
 
     return Container(
       decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
           gradient: LinearGradient(colors: [
-        ...tags
-            .map<Color>((tag) => ColorConversions.getFromString(tag.rawColor)),
-        Theme.of(context).primaryColor,
-        Theme.of(context).primaryColorLight,
-      ], transform: const GradientRotation(1))),
+            ...tags.map<Color>(
+                (tag) => ColorConversions.getFromString(tag.rawColor)),
+            Theme.of(context).primaryColor,
+            Theme.of(context).primaryColorLight,
+          ], transform: const GradientRotation(1))),
       child: ListTile(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         style: ListTileStyle.drawer,

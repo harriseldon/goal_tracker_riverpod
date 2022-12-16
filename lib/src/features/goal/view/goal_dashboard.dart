@@ -38,7 +38,7 @@ class GoalDashboard extends ConsumerWidget {
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 3 / 1,
+                  childAspectRatio: 10 / 1,
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 30,
                 ),
